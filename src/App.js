@@ -8,7 +8,9 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useRouteMatch,
+  useParams,
 } from "react-router-dom";
 
 
@@ -86,16 +88,41 @@ function About() {
 
 
 function Cursos() {
+  let match = useRouteMatch();
+
+
   return <div class="cursos">
     <h1>Cursos</h1>
     <ul>
-      <li>Python</li>
-      <li>React</li>
-
+      <li>
+        <Link to={`${match.url}/python`}>Python</Link>
+        </li>
+      <li>
+        <Link to={`${match.url}/react`}>React</Link>
+      </li>
     </ul>
+    <Switch>
+      <Route path={`${match.path}/:materia`}>
+        <Materia></Materia>
+
+      </Route>
+      <Route path={`${match.path}`}>
+        <h3>Por favor selecciona una materia...</h3>
+
+      </Route>
+
+    </Switch>
 
   </div>
 
 }
+
+function Materia() {
+  let { materia }  = useParams();
+  return <h2>Bienvenido a la materia { materia }</h2>;
+
+
+}
+
 
 export default App;
